@@ -1,5 +1,5 @@
 import traceback
-from app.response import send_response
+from app.response import Response
 
 
 def register_error_handlers(app):
@@ -8,11 +8,13 @@ def register_error_handlers(app):
         app.logger.error(traceback.format_exc())
         error = dict()
         error["message"] = str(e)
-        return send_response(
+
+        # Return response
+        return Response(
             status="error",
             message="Internal Server Error",
-            errors=error,
+            error=error,
             status_code=500
-        )
+        ).send_response()
 
     return app

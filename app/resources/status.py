@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 from app.extensions import mongo
 
@@ -12,8 +13,12 @@ def application_status():
 @status_bp.route('/database-connection-status')
 def database_connection_status():
     try:
-        mongo.cx.admin.command('ping')  # Ping MongoDB
-        status = "MongoDB is connected."
+        database_list = mongo.cx.list_database_names()
+        database_name = os.getenv("MONGO_URI").split('/')[-1]
+        if database_name in database_list:
+            status = f"{database_name} is connected."
+        else:
+            status = f"{database_name} is not connected."
     except Exception as e:
         status = f"Database connection failed: {str(e)}"
     return status

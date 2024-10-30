@@ -1,6 +1,7 @@
+import datetime
+import hashlib
 from flask import abort
 from app.extensions import mongo
-from app.utils import generate_short_code, get_current_time
 
 
 class ShortURLModel:
@@ -80,3 +81,17 @@ class ShortURLModel:
 
         # Delete the data
         mongo.db.short_urls.delete_one({"short_code": short_code})
+
+
+def generate_short_code(long_url):
+    # Create a hash of the long URL
+    hash_object = hashlib.sha256(long_url.encode())
+
+    # Take the first 8 characters of the hash
+    short_code = hash_object.hexdigest()[:8]
+
+    return short_code
+
+
+def get_current_time():
+    return datetime.datetime.now(datetime.UTC).astimezone().replace(tzinfo=None)

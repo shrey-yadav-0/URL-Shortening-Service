@@ -43,16 +43,19 @@ Create a new database using either a graphical user interface (GUI) tool like Mo
 ### 3. Add .env File
 Create a `.env` file in the root directory of the project and add the following configuration variables:
 ```plaintext
-ENVIRONMENT="development"
 MONGO_URI=<YOUR MONGO URI>
 ```
 
 ## Running the Application
 Once you have everything set up, you can run the Flask application using the following command:
 ```bash
-flask --app wsgi run
+flask --app app run
 ```
 This command will start the Flask development server, and you should see output indicating that the server is running.
 
+Use the following endpoints to verify that the application is running correctly and connected to the database:
+
+- Application Status: ```GET /application-status```
+- Database Connection Status: ```GET /database-connection-status```
 
 #### You can now use the API endpoints as described in the project documentation.
